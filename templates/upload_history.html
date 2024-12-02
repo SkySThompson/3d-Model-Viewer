@@ -1,0 +1,14 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+   <title>Upload History</title>  
+</head>  
+<body>  
+   <h1>Upload History</h1>  
+   <ul>  
+      {% for file in uploaded_files %}  
+        <li>{{ file }}</li>  
+      {% endfor %}  
+   </ul>  
+</body>  
+</html>

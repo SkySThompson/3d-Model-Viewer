@@ -1,0 +1,75 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>3D Model Viewer</title>  
+  
+  <!-- Link to your CSS file -->  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">  
+  
+  <!-- A-Frame for AR/3D -->  
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>  
+</head>  
+<body>  
+  
+  <!-- Info Modal (hidden by default) -->  
+  <div id="infoMessage" style="display:none;">  
+   <p>Welcome to the 3D Model Viewer!</p>  
+   <button id="closeInfoMessage">Close</button>  
+  </div>  
+  
+  <!-- Main container for everything -->  
+  <div class="main-container">  
+   <!-- Buttons for interactions (above model) -->  
+   <div class="button-container">  
+    <button id="historyButton">View Upload History</button>  
+    <button id="infoButton">Show Info</button>  
+   </div>  
+  
+   <!-- 3D Model Viewer in a box -->  
+   <div class="model-container">  
+    <a-scene>  
+      <a-assets>  
+       {% if model_filename %}  
+        <a-asset-item id="model" src="{{ url_for('static', filename='models/' + model_filename) }}"></a-asset-item>  
+       {% endif %}  
+      </a-assets>  
+  
+      <!-- Only display model if uploaded -->  
+      {% if model_filename %}  
+       <a-entity gltf-model="#model"></a-entity>  
+      {% endif %}  
+      <a-entity camera look-controls></a-entity>  
+    </a-scene>  
+   </div>  
+  
+   <!-- Upload Form -->  
+   <div class="upload-form">  
+    <form action="/" method="POST" enctype="multipart/form-data">  
+      <input type="file" name="file" id="fileInput" required />  
+      <button type="submit">Upload Model</button>  
+    </form>  
+   </div>  
+  </div>  
+  
+  <!-- JavaScript for interactive functionality -->  
+  <script>  
+   // Info modal logic  
+   document.getElementById('infoButton').addEventListener('click', function() {  
+    document.getElementById('infoMessage').style.display = 'block';  
+   });  
+  
+   document.getElementById('closeInfoMessage').addEventListener('click', function() {  
+    document.getElementById('infoMessage').style.display = 'none';  
+   });  
+  
+   // History button functionality  
+   document.getElementById('historyButton').addEventListener('click', function() {  
+    console.log('View Upload History clicked');  
+    window.location.href = '/upload_history';  
+   });  
+  </script>  
+  
+</body>  
+</html>
